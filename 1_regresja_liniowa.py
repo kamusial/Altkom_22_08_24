@@ -28,5 +28,16 @@ sns.histplot(df.query('Gender=="Female"').Weight)    # przygotowanie wykresu, sa
 sns.histplot(df.query('Gender=="Male"').Weight)    # przygotowanie wykresu, sami panowie
 plt.show()
 
+# zamiana gender na dane numeryczne
+df = pd.get_dummies(df)   # nadpisz dane
+del (df['Gender_Male'])   # usuwanie kolumny
+df = df.rename(columns={'Gender_Female': 'Gender'})   # zmiana nazwy kolumny
+# False - facet,  True - kobieta
+print(df)
+
+# przygotowanie modelu
+model = LinearRegression()   # wybor modelu
+model.fit(df[['Height', 'Gender']],   df['Weight'])   # dane do modelu
+print(f'Wspolczynnik kierunkowy: {model.coef_}\nWyraz wolny: {model.intercept_}')
 
 
