@@ -40,4 +40,9 @@ model = LinearRegression()   # wybor modelu
 model.fit(df[['Height', 'Gender']],   df['Weight'])   # dane do modelu
 print(f'Wspolczynnik kierunkowy: {model.coef_}\nWyraz wolny: {model.intercept_}')
 
+print(f'Weight = Height * {model.coef_[0]} + Gender * {model.coef_[1]} + {model.intercept_}')
 
+
+# sprawdzenie
+print(model.predict([[160, 0]]))
+print(model.predict([[160, 1], [180, 0], [167, 1]]))
