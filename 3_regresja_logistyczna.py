@@ -20,3 +20,26 @@ for col in ['glucose', 'bloodpressure', 'skinthickness', 'insulin',
 
 print(df.isna().sum())    # ile pustych pol
 
+X = df.iloc[:, :-1]      # wszystko, bez ostatniej kolumny
+y = df.outcome           # ostatnia kolumna
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+model = LogisticRegression()
+model.fit(X_train, y_train)
+print(model.score(X_test, y_test))
+print(pd.DataFrame(confusion_matrix(y_test, model.predict((X_test)))))
+
+print('Ile chorych, a ile zdrowych?')
+print(df.outcome.value_counts())
+
+print('zmiana danych')
+df1 = df.query('outcome==0').sample(n=500)
+df2 = df.query('outcome==1').sample(n=500)
+df3 = pd.concat([df1, df2])   # 1000 pacjentów, 500 zdrowych i 500 chorych
+
+X = df3.iloc[:, :-1]
+y = df3.outcome
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+model = LogisticRegression()
+model.fit(X_train, y_train)
+print(model.score(X_test, y_test))
+print(pd.DataFrame(confusion_matrix(y_test, model.predict((X_test)))))
