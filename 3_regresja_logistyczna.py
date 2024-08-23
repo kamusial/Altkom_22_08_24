@@ -20,6 +20,8 @@ for col in ['glucose', 'bloodpressure', 'skinthickness', 'insulin',
 
 print(df.isna().sum())    # ile pustych pol
 
+df.to_csv('cukrzyca.csv', index=False)     # zapisanie wyczyszczonego pliku do csv
+
 X = df.iloc[:, :-1]      # wszystko, bez ostatniej kolumny
 y = df.outcome           # ostatnia kolumna
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)

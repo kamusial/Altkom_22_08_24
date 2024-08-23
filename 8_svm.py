@@ -8,14 +8,38 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 
-X, y = make_circles(n_samples=500, factor=0.5, noise=0.2)
+X, y = make_circles(n_samples=500, factor=0.5, noise=0.3)   # tworzenie kolek / punktow
 plt.scatter(X[:, 0], X[:, 1], c=y)
 plt.show()
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=.2)
-# kernel{‘linear’, ‘poly’, ‘rbf’, ‘sigmoid’, ‘precomputed’}
 
-model = SVC(kernel='poly', degree=2)
+print('\nLogistic Regression')
+model = LogisticRegression()
 model.fit(X_train, y_train)
 print(model.score(X_test, y_test))
 print(pd.DataFrame(confusion_matrix(y_test, model.predict(X_test))))
+
+print('\nKNN')
+model = KNeighborsClassifier(n_neighbors=50, weights='distance')
+model.fit(X_train, y_train)
+print(model.score(X_test, y_test))
+print(pd.DataFrame(confusion_matrix(y_test, model.predict(X_test))))
+
+print('\nDrzewo decyzyjne')
+model1 = DecisionTreeClassifier(max_depth=5, min_samples_split=2)
+model1.fit(X_train, y_train)
+print(model1.score(X_test, y_test))
+print(pd.DataFrame(confusion_matrix(y_test, model1.predict(X_test))))
+
+print('\nSVC')
+# kernel{‘linear’, ‘poly’, ‘rbf’, ‘sigmoid’, ‘precomputed’}
+model = SVC(kernel='rbf', degree=2)
+model.fit(X_train, y_train)
+print(model.score(X_test, y_test))
+print(pd.DataFrame(confusion_matrix(y_test, model.predict(X_test))))
+
+# granice decyzyjne
+from mlxtend.plotting import plot_decision_regions
+plot_decision_regions(X, y, model1)
+plt.show()
